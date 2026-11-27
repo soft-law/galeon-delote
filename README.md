@@ -48,7 +48,7 @@ needs no permission: anyone, including a crank, can mint a fulfilled Pull, and t
 | Machine #2 "Galeón d'Elote" | [`4fcwnpAciPin3R2KkKL3jJAaKmCNpaxb98LBYsVXexhK`](https://explorer.solana.com/address/4fcwnpAciPin3R2KkKL3jJAaKmCNpaxb98LBYsVXexhK?cluster=devnet): Blanco 40, Añejo 25, Mezcal 10, Moneda de plata 3; 0.01 SOL or 1 USDC per pull |
 | Core collection | [`8MLqk9dEudjcdSauwYP1pT4oEWw5hXkn9P43ZvDhPFrK`](https://explorer.solana.com/address/8MLqk9dEudjcdSauwYP1pT4oEWw5hXkn9P43ZvDhPFrK?cluster=devnet); its update authority is a program PDA |
 | ER validator | `MAS1Dt9qreoRMQ14YQuhg8UTZMMzDdKhmkZMECCzk57` (devnet-as), stored in `Machine.er_validator` |
-| Metadata | Pinata IPFS, e.g. [collection.json](https://gateway.pinata.cloud/ipfs/bafkreiekjuf7ogymo743voix6piaffiuxo3nhyc4zkyb7cos32tmzuacni) |
+| Metadata | Pinata IPFS, e.g. [collection.json](https://gateway.pinata.cloud/ipfs/bafybeicyyjhv3n4u4s7pzh2l253tu26zqhrbmc34eoyyxngubm75rmi6ri) |
 
 ### Proof: a pack of 3 paid in USDC, with one wallet signature (24 Nov)
 
@@ -66,7 +66,7 @@ On [www.elote.baby/app/barriles](https://www.elote.baby/app/barriles), a wallet 
 ([5cTcfScx…](https://explorer.solana.com/tx/5cTcfScxnaYUGrvUsWfsggzse56SCo5FjcGzgKa86SZoAfiFQ2iGYvyyFbAMszv1YStL5oKVW3kPiizt5LFw4TPJ?cluster=devnet)),
 spun in the ER and claimed Añejo #2
 ([2xgDeCB4…](https://explorer.solana.com/tx/2xgDeCB4js14vAVP3bAV4YnraLJt45eHZScP3cgpMgZmtr49QEqTkY5NsL5czGjZiVBLC32vhs9SBaefR5LFnSjr?cluster=devnet)),
-about 30 seconds end to end. Demo video: [watch it](https://gateway.pinata.cloud/ipfs/bafybeihcmbtnhixrf77qcarpdls5gqxpghutca4axfgbtok6h6mhjqg6be) (also in `docs/demo.mp4`).
+about 30 seconds end to end. Demo video: [watch it](https://gateway.pinata.cloud/ipfs/bafybeicyyjhv3n4u4s7pzh2l253tu26zqhrbmc34eoyyxngubm75rmi6ri) (also in `docs/demo.mp4`).
 
 The scripts append every devnet run (step, signature, CU, timing) to `runs/devnet.jsonl`, which git ignores.
 
