@@ -66,7 +66,7 @@ On [www.elote.baby/app/barriles](https://www.elote.baby/app/barriles), a wallet 
 ([5cTcfScx…](https://explorer.solana.com/tx/5cTcfScxnaYUGrvUsWfsggzse56SCo5FjcGzgKa86SZoAfiFQ2iGYvyyFbAMszv1YStL5oKVW3kPiizt5LFw4TPJ?cluster=devnet)),
 spun in the ER and claimed Añejo #2
 ([2xgDeCB4…](https://explorer.solana.com/tx/2xgDeCB4js14vAVP3bAV4YnraLJt45eHZScP3cgpMgZmtr49QEqTkY5NsL5czGjZiVBLC32vhs9SBaefR5LFnSjr?cluster=devnet)),
-about 30 seconds end to end. Demo video: [`docs/demo.mp4`](docs/demo.mp4).
+about 30 seconds end to end. Demo video: [watch it](https://gateway.pinata.cloud/ipfs/bafybeihcmbtnhixrf77qcarpdls5gqxpghutca4axfgbtok6h6mhjqg6be) (also in `docs/demo.mp4`).
 
 The scripts append every devnet run (step, signature, CU, timing) to `runs/devnet.jsonl`, which git ignores.
 
