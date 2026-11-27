@@ -1,0 +1,20 @@
+{
+  "name": "tequila-gacha",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "codama": "bun scripts/codama.ts",
+    "assets": "bun assets/gen.ts"
+  },
+  "dependencies": {
+    "@solana/kit": "8.6.0",
+    "@solana/program-client-core": "^8.5.0",
+    "@magicblock-labs/ephemeral-rollups-sdk": "0.18.0"
+  },
+  "devDependencies": {
+    "codama": "1.11.0",
+    "@codama/nodes-from-anchor": "1.5.6",
+    "@codama/renderers-js": "2.9.1"
+  }
+}

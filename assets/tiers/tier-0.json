@@ -1,0 +1,25 @@
+{
+  "name": "Blanco",
+  "symbol": "TQG",
+  "description": "devnet · demostración · sin botella física. Premio de prueba del gacha; no representa ningún producto.",
+  "image": "https://example.invalid/tequila-gacha/tier-0.svg",
+  "attributes": [
+    {
+      "trait_type": "Nivel",
+      "value": "Blanco"
+    },
+    {
+      "trait_type": "Red",
+      "value": "devnet"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://example.invalid/tequila-gacha/tier-0.svg",
+        "type": "image/svg+xml"
+      }
+    ],
+    "category": "image"
+  }
+}

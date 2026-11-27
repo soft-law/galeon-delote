@@ -1,0 +1,8 @@
+target/
+tests-magicsvm-rs/target/
+node_modules/
+*-keypair.json
+keys/
+*.key
+.env
+runs/

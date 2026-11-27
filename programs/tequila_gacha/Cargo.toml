@@ -1,0 +1,28 @@
+[package]
+name = "tequila_gacha"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "GPL-3.0-or-later"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "tequila_gacha"
+
+[features]
+default = []
+no-entrypoint = []
+cpi = ["no-entrypoint"]
+idl-build = ["anchor-lang/idl-build", "session-keys/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = { version = "=1.0.2", features = ["init-if-needed"] }
+ephemeral-rollups-sdk = { version = "=0.18.0", features = ["anchor", "vrf"] }
+solana-sha256-hasher = "=3.1.0"
+session-keys = { version = "=3.1.1", features = ["no-entrypoint"] }
+
+[lints.rust]
+unexpected_cfgs = { level = "allow" }

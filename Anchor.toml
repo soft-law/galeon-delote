@@ -1,0 +1,11 @@
+[toolchain]
+
+[programs.devnet]
+tequila_gacha = "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis"
+
+[programs.localnet]
+tequila_gacha = "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"

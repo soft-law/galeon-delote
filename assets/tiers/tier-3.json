@@ -1,0 +1,25 @@
+{
+  "name": "Moneda de plata",
+  "symbol": "TQG",
+  "description": "devnet · demostración · sin botella física. Premio de prueba del gacha; no representa ningún producto.",
+  "image": "https://example.invalid/tequila-gacha/tier-3.svg",
+  "attributes": [
+    {
+      "trait_type": "Nivel",
+      "value": "Moneda de plata"
+    },
+    {
+      "trait_type": "Red",
+      "value": "devnet"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://example.invalid/tequila-gacha/tier-3.svg",
+        "type": "image/svg+xml"
+      }
+    ],
+    "category": "image"
+  }
+}

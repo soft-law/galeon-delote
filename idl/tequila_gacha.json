@@ -1,0 +1,1897 @@
+{
+  "address": "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis",
+  "metadata": {
+    "name": "tequila_gacha",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "buy_pull",
+      "docs": [
+        "A pack of `count` (1, 3 or 5) for count × price, paid to the seller directly. Reserves",
+        "`count` units and freezes the odds into the Pull. Refuses if the total exceeds",
+        "`max_price_total` (the price the player agreed to)."
+      ],
+      "discriminator": [
+        134,
+        171,
+        16,
+        12,
+        172,
+        154,
+        134,
+        164
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "machine",
+          "writable": true
+        },
+        {
+          "name": "player_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pull",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  117,
+                  108,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              },
+              {
+                "kind": "account",
+                "path": "player_state.next_nonce",
+                "account": "PlayerState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "player_usdc",
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "seller_usdc",
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "usdc_mint",
+          "optional": true
+        },
+        {
+          "name": "token_program",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "currency",
+          "type": {
+            "defined": {
+              "name": "Currency"
+            }
+          }
+        },
+        {
+          "name": "count",
+          "type": "u8"
+        },
+        {
+          "name": "max_price_total",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "callback_spin",
+      "docs": [
+        "VRF oracle. Writes only Pull: `count` tiers drawn without replacement from a copy of the",
+        "snapshot, pick i with sha256(randomness ‖ \"pick\" ‖ i)."
+      ],
+      "discriminator": [
+        221,
+        38,
+        144,
+        48,
+        201,
+        253,
+        190,
+        105
+      ],
+      "accounts": [
+        {
+          "name": "vrf_program_identity",
+          "signer": true,
+          "address": "ABsEadkqCNCRcRfJYHdT6kFVMN9z1ZitWGyCHaA5xTvf"
+        },
+        {
+          "name": "pull",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "randomness",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "request_seq",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "docs": [
+        "Base, permissionless: any signer pays rent and fee. Re-rolls over current stock with",
+        "randomness[8..16] only if the drawn tier is exhausted, assigns the unit and mints a",
+        "transferable Core asset to `pull.player`."
+      ],
+      "discriminator": [
+        62,
+        198,
+        214,
+        193,
+        213,
+        159,
+        108,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "relations": [
+            "pull"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true,
+          "relations": [
+            "pull"
+          ]
+        },
+        {
+          "name": "player_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "asset",
+          "writable": true
+        },
+        {
+          "name": "collection",
+          "writable": true
+        },
+        {
+          "name": "core_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpl_core_program",
+          "address": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_action",
+      "docs": [
+        "Base, only through the delegation program (the escrow PDA must sign): the claim of",
+        "`settle_and_claim`, paid by the escrow."
+      ],
+      "discriminator": [
+        233,
+        173,
+        61,
+        132,
+        252,
+        33,
+        12,
+        224
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "writable": true,
+          "relations": [
+            "pull"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true,
+          "relations": [
+            "pull"
+          ]
+        },
+        {
+          "name": "player_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "asset",
+          "writable": true
+        },
+        {
+          "name": "collection",
+          "writable": true
+        },
+        {
+          "name": "core_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpl_core_program",
+          "address": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "source_program",
+          "address": "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis"
+        },
+        {
+          "name": "escrow_auth"
+        },
+        {
+          "name": "escrow",
+          "docs": [
+            "came through the post-undelegate action; it pays the asset rent."
+          ],
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close",
+      "discriminator": [
+        98,
+        165,
+        201,
+        177,
+        108,
+        65,
+        206,
+        96
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "machine"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "delegate_pull",
+      "docs": [
+        "Base layer. Delegates the live Pull, only while Paid, to the ER validator stored in Machine."
+      ],
+      "discriminator": [
+        223,
+        242,
+        253,
+        132,
+        77,
+        228,
+        225,
+        37
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "machine"
+        },
+        {
+          "name": "player_state",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buffer_pull",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pull"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                19,
+                217,
+                250,
+                35,
+                214,
+                226,
+                69,
+                10,
+                101,
+                18,
+                8,
+                6,
+                37,
+                112,
+                130,
+                205,
+                213,
+                6,
+                108,
+                24,
+                37,
+                125,
+                45,
+                116,
+                148,
+                27,
+                219,
+                159,
+                139,
+                234,
+                230,
+                224
+              ]
+            }
+          }
+        },
+        {
+          "name": "delegation_record_pull",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pull"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "delegation_metadata_pull",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pull"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "owner_program",
+          "address": "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis"
+        },
+        {
+          "name": "delegation_program",
+          "address": "DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_machine",
+      "discriminator": [
+        154,
+        139,
+        175,
+        13,
+        145,
+        116,
+        217,
+        54
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "machine",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  99,
+                  104,
+                  105,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "path": "machine_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "collection",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  108,
+                  108,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "machine"
+              }
+            ]
+          }
+        },
+        {
+          "name": "core_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpl_core_program",
+          "address": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "machine_id",
+          "type": "u32"
+        },
+        {
+          "name": "seller",
+          "type": "pubkey"
+        },
+        {
+          "name": "usdc_mint",
+          "type": "pubkey"
+        },
+        {
+          "name": "price_lamports",
+          "type": "u64"
+        },
+        {
+          "name": "price_usdc",
+          "type": "u64"
+        },
+        {
+          "name": "er_validator",
+          "type": "pubkey"
+        },
+        {
+          "name": "collection_name",
+          "type": "string"
+        },
+        {
+          "name": "collection_uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "discriminator": [
+        228,
+        220,
+        155,
+        71,
+        199,
+        189,
+        60,
+        45
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "machine"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "process_undelegation",
+      "discriminator": [
+        196,
+        28,
+        41,
+        206,
+        48,
+        37,
+        51,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "base_account",
+          "writable": true
+        },
+        {
+          "name": "buffer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  110,
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_account"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                181,
+                183,
+                0,
+                225,
+                242,
+                87,
+                58,
+                192,
+                204,
+                6,
+                34,
+                1,
+                52,
+                74,
+                207,
+                151,
+                184,
+                53,
+                6,
+                235,
+                140,
+                229,
+                25,
+                152,
+                204,
+                98,
+                126,
+                24,
+                147,
+                128,
+                167,
+                62
+              ]
+            }
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "account_seeds",
+          "type": {
+            "vec": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "docs": [
+        "Base. The current owner of the pack's asset `index` burns it and gets a Redemption record",
+        "with that index's tier and number."
+      ],
+      "discriminator": [
+        184,
+        12,
+        86,
+        149,
+        70,
+        196,
+        97,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "machine",
+          "relations": [
+            "pull"
+          ]
+        },
+        {
+          "name": "pull"
+        },
+        {
+          "name": "asset",
+          "writable": true
+        },
+        {
+          "name": "collection",
+          "writable": true
+        },
+        {
+          "name": "redemption",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpl_core_program",
+          "address": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "respin",
+      "docs": [
+        "New request for a Requested pull after 130 s on the clock of the layer where Pull",
+        "lives. Bumps `request_seq`, so the old request's callback is rejected as stale."
+      ],
+      "discriminator": [
+        244,
+        16,
+        66,
+        119,
+        230,
+        221,
+        206,
+        232
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "oracle_queue",
+          "writable": true
+        },
+        {
+          "name": "session_token",
+          "optional": true
+        },
+        {
+          "name": "program_identity",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  100,
+                  101,
+                  110,
+                  116,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vrf_program",
+          "address": "Vrf1RNUjXmQGjmQrQLvJHs9SNkvDJEsRVFPkfSQUwGz"
+        },
+        {
+          "name": "slot_hashes",
+          "address": "SysvarS1otHashes111111111111111111111111111"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "set_er_validator",
+      "discriminator": [
+        205,
+        97,
+        243,
+        133,
+        57,
+        39,
+        134,
+        104
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "machine"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "er_validator",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "set_prices",
+      "discriminator": [
+        155,
+        1,
+        215,
+        185,
+        100,
+        8,
+        177,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "machine"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "price_lamports",
+          "type": "u64"
+        },
+        {
+          "name": "price_usdc",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_tiers",
+      "docs": [
+        "Writes tiers `start..start + tiers.len()` and sets `tier_count` to that end. Draft only."
+      ],
+      "discriminator": [
+        170,
+        131,
+        109,
+        175,
+        156,
+        214,
+        177,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "machine"
+          ]
+        },
+        {
+          "name": "machine",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "start",
+          "type": "u8"
+        },
+        {
+          "name": "tiers",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "TierInput"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_and_claim",
+      "docs": [
+        "ER. Fulfilled only: commit + undelegate Pull and schedule `claim_action` as a",
+        "post-undelegate base action (Pull is the program's again when it runs). The signer's",
+        "DLP escrow [\"balance\", signer, 255] pays the asset rent; if the action fails, Pull is",
+        "back on base Fulfilled and `claim` still works."
+      ],
+      "discriminator": [
+        157,
+        38,
+        71,
+        26,
+        144,
+        236,
+        81,
+        44
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "session_token",
+          "optional": true
+        },
+        {
+          "name": "machine"
+        },
+        {
+          "name": "program",
+          "address": "2LVXXXxVUMQPnewQGKpNDb3dRRfhVdbSmhYwNppfuAis"
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settle_pull",
+      "docs": [
+        "ER. Commit + undelegate Pull, signed by the player: Paid or Fulfilled any time,",
+        "Requested only 130 s after the request (so a pending callback is not cut off)."
+      ],
+      "discriminator": [
+        25,
+        94,
+        189,
+        224,
+        110,
+        11,
+        146,
+        160
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "session_token",
+          "optional": true
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "spin",
+      "docs": [
+        "Base (DEFAULT_QUEUE) or ER (DEFAULT_EPHEMERAL_QUEUE). Paid -> Requested."
+      ],
+      "discriminator": [
+        87,
+        64,
+        120,
+        10,
+        25,
+        224,
+        122,
+        93
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pull",
+          "writable": true
+        },
+        {
+          "name": "oracle_queue",
+          "writable": true
+        },
+        {
+          "name": "session_token",
+          "optional": true
+        },
+        {
+          "name": "program_identity",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  100,
+                  101,
+                  110,
+                  116,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vrf_program",
+          "address": "Vrf1RNUjXmQGjmQrQLvJHs9SNkvDJEsRVFPkfSQUwGz"
+        },
+        {
+          "name": "slot_hashes",
+          "address": "SysvarS1otHashes111111111111111111111111111"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Machine",
+      "discriminator": [
+        25,
+        102,
+        22,
+        13,
+        58,
+        243,
+        138,
+        79
+      ]
+    },
+    {
+      "name": "PlayerState",
+      "discriminator": [
+        56,
+        3,
+        60,
+        86,
+        174,
+        16,
+        244,
+        195
+      ]
+    },
+    {
+      "name": "Pull",
+      "discriminator": [
+        65,
+        19,
+        46,
+        7,
+        253,
+        230,
+        71,
+        243
+      ]
+    },
+    {
+      "name": "Redemption",
+      "discriminator": [
+        112,
+        75,
+        232,
+        189,
+        22,
+        114,
+        156,
+        203
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SoldOut",
+      "msg": "Sold out: no unreserved units left"
+    },
+    {
+      "code": 6001,
+      "name": "MachineNotOpen",
+      "msg": "Machine is not open"
+    },
+    {
+      "code": 6002,
+      "name": "LivePullExists",
+      "msg": "Player already has a live pull"
+    },
+    {
+      "code": 6003,
+      "name": "WrongPullState",
+      "msg": "Pull is not in the required state"
+    },
+    {
+      "code": 6004,
+      "name": "RespinTooEarly",
+      "msg": "Respin allowed 130 s after the request"
+    },
+    {
+      "code": 6005,
+      "name": "StaleCallback",
+      "msg": "Callback for a superseded request"
+    },
+    {
+      "code": 6006,
+      "name": "CurrencyNotAccepted",
+      "msg": "Currency not accepted (price is 0)"
+    },
+    {
+      "code": 6007,
+      "name": "TiersLocked",
+      "msg": "Tiers can only be set in Draft"
+    },
+    {
+      "code": 6008,
+      "name": "NotFulfilled",
+      "msg": "Pull is not Fulfilled"
+    },
+    {
+      "code": 6009,
+      "name": "WrongQueue",
+      "msg": "Oracle queue not allowed"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidTiers",
+      "msg": "Invalid tiers"
+    },
+    {
+      "code": 6011,
+      "name": "NoTiers",
+      "msg": "Machine has no tiers"
+    },
+    {
+      "code": 6012,
+      "name": "WrongMachineState",
+      "msg": "Machine is not in the required state"
+    },
+    {
+      "code": 6013,
+      "name": "MissingTokenAccounts",
+      "msg": "USDC payment needs token accounts, mint and token program"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidTokenAccount",
+      "msg": "Invalid token account or mint"
+    },
+    {
+      "code": 6015,
+      "name": "NotAssetOwner",
+      "msg": "Signer is not the asset's owner"
+    },
+    {
+      "code": 6016,
+      "name": "NotClaimed",
+      "msg": "Pull is not Claimed"
+    },
+    {
+      "code": 6017,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6018,
+      "name": "PriceAboveMax",
+      "msg": "Price is above the buyer's max_price"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidValidator",
+      "msg": "ER validator cannot be the default pubkey"
+    },
+    {
+      "code": 6020,
+      "name": "SettleTooEarly",
+      "msg": "Settle of a Requested pull allowed 130 s after the request"
+    },
+    {
+      "code": 6021,
+      "name": "NotPlayerOrSession",
+      "msg": "Signer is neither the pull's player nor a session key of the player for this program"
+    },
+    {
+      "code": 6022,
+      "name": "SessionExpired",
+      "msg": "Session token has expired"
+    },
+    {
+      "code": 6023,
+      "name": "NotEscrowSigner",
+      "msg": "claim_action runs only as the post-undelegate action (escrow must sign)"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidCount",
+      "msg": "Pack size must be 1, 3 or 5"
+    }
+  ],
+  "types": [
+    {
+      "name": "Currency",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Sol"
+          },
+          {
+            "name": "Usdc"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Machine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "collection",
+            "type": "pubkey"
+          },
+          {
+            "name": "price_lamports",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "price_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "MachineStatus"
+              }
+            }
+          },
+          {
+            "name": "er_validator",
+            "type": "pubkey"
+          },
+          {
+            "name": "pending",
+            "type": "u32"
+          },
+          {
+            "name": "tier_count",
+            "type": "u8"
+          },
+          {
+            "name": "tiers",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Tier"
+                }
+              }
+            }
+          },
+          {
+            "name": "machine_id",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MachineStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "next_nonce",
+            "type": "u64"
+          },
+          {
+            "name": "live_pull",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pull",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "machine",
+            "type": "pubkey"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "PullStatus"
+              }
+            }
+          },
+          {
+            "name": "snapshot",
+            "type": {
+              "array": [
+                "u32",
+                6
+              ]
+            }
+          },
+          {
+            "name": "request_seq",
+            "type": "u8"
+          },
+          {
+            "name": "paid_with",
+            "type": {
+              "defined": {
+                "name": "Currency"
+              }
+            }
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "paid_at",
+            "type": "i64"
+          },
+          {
+            "name": "requested_at",
+            "type": "i64"
+          },
+          {
+            "name": "fulfilled_at",
+            "type": "i64"
+          },
+          {
+            "name": "randomness",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "count",
+            "docs": [
+              "Pack size: 1, 3 or 5."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "claimed",
+            "docs": [
+              "Claim cursor: the next index to mint (assets [\"asset\", pull, index])."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "tiers",
+            "docs": [
+              "Tier per index (from the callback; changed in claim only if re-rolled)."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                5
+              ]
+            }
+          },
+          {
+            "name": "rerolled",
+            "docs": [
+              "Bit i set if index i was re-rolled at claim."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "allocations",
+            "docs": [
+              "Number within its tier per claimed index."
+            ],
+            "type": {
+              "array": [
+                "u32",
+                5
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PullStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Paid"
+          },
+          {
+            "name": "Requested"
+          },
+          {
+            "name": "Fulfilled"
+          },
+          {
+            "name": "Claimed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Redemption",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "asset",
+            "type": "pubkey"
+          },
+          {
+            "name": "redeemer",
+            "type": "pubkey"
+          },
+          {
+            "name": "machine",
+            "type": "pubkey"
+          },
+          {
+            "name": "tier",
+            "type": "u8"
+          },
+          {
+            "name": "allocation",
+            "type": "u32"
+          },
+          {
+            "name": "redeemed_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SessionTokenV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "target_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "session_signer",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "valid_until",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tier",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cap",
+            "type": "u32"
+          },
+          {
+            "name": "assigned",
+            "type": "u32"
+          },
+          {
+            "name": "name",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "uri",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TierInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cap",
+            "type": "u32"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}
